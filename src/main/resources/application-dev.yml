@@ -10,10 +10,3 @@ spring:
 
 mybatis:
   type-aliases-package: com.yumier.iface.entity
-
-#showSql
-logging:
-  level:
-    com:
-      example:
-        mapper : debug
