@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    username: root
+    password: 121514hdy
+    url: jdbc:mysql://rm-uf6t2xu83d2a3hcjhco.mysql.rds.aliyuncs.com:3306/iface?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  type-aliases-package: com.yumier.iface.entity
+
+#showSql
+logging:
+  level:
+    com:
+      example:
+        mapper : debug
