@@ -12,20 +12,14 @@ import java.util.Date;
  * @date 2020/9/13
  */
 @Data
-@Table(name="t_user")//指定表名
-public class User {
+@Table(name="t_attendancerecord")//指定表名
+public class Attend {
     @Id//主键
     @KeySql(useGeneratedKeys = true)//自动增长
     private int id;
-    private int groupId;
-    private String faceId;
     private String username;
-    private String password;
-    private String role;
-    private int age;
-    private String email;
-    private boolean gender;
     private String phoneNumber;
-    private Date createTime;
-    private Date updateTime;
+    private Date checkTime;
+    private String type;
+    private String status;
 }
