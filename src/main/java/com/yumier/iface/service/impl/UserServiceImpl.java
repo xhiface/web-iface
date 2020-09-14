@@ -29,7 +29,12 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public int insertUser(User user){
-        return ud.insertUser(user);
+        User getone = ud.selectOne(user);
+        if(getone==null){
+            return 0;
+        }else{
+            return ud.insertUser(user);
+        }
     }
 
     @Override

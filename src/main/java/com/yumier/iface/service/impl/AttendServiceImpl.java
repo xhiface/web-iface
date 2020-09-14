@@ -24,13 +24,13 @@ public class AttendServiceImpl implements AttendService {
     }
 
     @Override
-    public Attend selectOneUser(Attend attend) {
+    public List<Attend> selectOneUser(Attend attend) {
         return attendDao.selectOneUser(attend);
     }
 
     @Override
     public List<Attend> getTimeQuantum(Attend attend, Date startTime, Date endTime) {
-        return attendDao.getTimeQuantum(attend, startTime, endTime);
+        return attendDao.getTimeQuantum(attend.getPhoneNumber(), startTime, endTime);
     }
 
     @Override

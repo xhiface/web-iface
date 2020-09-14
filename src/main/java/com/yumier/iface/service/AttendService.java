@@ -12,7 +12,7 @@ import java.util.List;
 public interface AttendService {
     List<Attend> selectAll();
 
-    Attend selectOneUser(Attend attend);
+    List<Attend> selectOneUser(Attend attend);
 
     List<Attend> getTimeQuantum(Attend attend, Date startTime, Date endTime);
 

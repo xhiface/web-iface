@@ -18,18 +18,18 @@ public interface AttendDao {
     List<Attend> selectAll();
 
     @Select("select * from t_attendancerecord where phoneNumber=#{phoneNumber}")
-    Attend selectOneUser(Attend attend);
+    List<Attend> selectOneUser(Attend attend);
 
     @Select("select * from t_attendancerecord where phoneNumber=#{phoneNumber} " +
             "and  checkTime>#{startTime} and checkTime<#{endTime}")
-    List<Attend> getTimeQuantum(Attend attend, Date startTime, Date endTime);
+    List<Attend> getTimeQuantum(String phoneNumber, Date startTime, Date endTime);
 
     @Insert("insert into t_attendancerecord (username,phoneNumber,checkTime,type,status) " +
             "value(#{username},#{phoneNumber},#{checkTime},#{type},#{status})")
     int insertAttend(Attend attend);
 
     @Update("update t_attendancerecord set username=#{username},phoneNumber=#{phoneNumber}," +
-            "checkTime=#{checkTime},type=#{type},status=#{status}")
+            "checkTime=#{checkTime},type=#{type},status=#{status} where id=#{id}")
     int updateAttend(Attend attend);
 
     @Delete("delete from t_attendancerecord where id=#{id}")

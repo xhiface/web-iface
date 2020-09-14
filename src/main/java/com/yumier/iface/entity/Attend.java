@@ -1,5 +1,6 @@
 package com.yumier.iface.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import tk.mybatis.mapper.annotation.KeySql;
 
@@ -19,6 +20,7 @@ public class Attend {
     private int id;
     private String username;
     private String phoneNumber;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date checkTime;
     private String type;
     private String status;

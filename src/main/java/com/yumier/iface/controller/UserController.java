@@ -3,6 +3,7 @@ package com.yumier.iface.controller;
 import com.yumier.iface.entity.User;
 import com.yumier.iface.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +24,14 @@ public class UserController {
     UserServiceImpl us;
 
     @PostMapping("/getAllUser")
-    public List<User> login(){
+    public List<User> getAllUser(){
         return us.selectall();
     }
 
+    @PostMapping("/selectoneuser")
+    public User selectoneuser(@RequestBody User user){
+        return us.selectone(user);
+    }
     @PostMapping("/insertUser")
     public int insertUser(@RequestBody User user){
         user.setCreateTime(new Date());
@@ -35,13 +40,13 @@ public class UserController {
     }
 
     @PostMapping("/updateUser")
-    public int updateUser(@RequestBody User user){
+    public ResponseEntity<Boolean> updateUser(@RequestBody User user){
         user.setUpdateTime(new Date());
-        return us.insertUser(user);
+        return ResponseEntity.ok(us.insertUser(user)==1);
     }
 
     @PostMapping("/deleteUser")
-    public int deleteUser(@RequestBody User user){
-        return us.deleteUser(user.getId());
+    public ResponseEntity<Boolean> deleteUser(@RequestBody User user){
+        return ResponseEntity.ok(us.deleteUser(user.getId())==1);
     }
 }
