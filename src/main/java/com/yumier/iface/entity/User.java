@@ -17,7 +17,7 @@ public class User {
     @Id//主键
     @KeySql(useGeneratedKeys = true)//自动增长
     private int id;
-    private int groupId;
+    private String groupId;
     private String faceId;
     private String username;
     private String password;
