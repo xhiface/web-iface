@@ -57,7 +57,7 @@ public class AttendController {
     }
 
     @PostMapping("/insertattend")
-    public ResponseEntity<Boolean> insertAttend(@RequestBody Attend attend) {
+    public ResponseEntity<Attend> insertAttend(@RequestBody Attend attend) {
         User user = new User();
         user.setPhoneNumber(attend.getPhoneNumber());
         User selectone = usi.selectone(user);
@@ -79,7 +79,12 @@ public class AttendController {
                 attend.setStatus("1");
             }
         }
-        return ResponseEntity.ok(asi.insertAttend(attend)==1);
+        if(asi.insertAttend(attend)==1){
+            return ResponseEntity.ok(attend);
+        }else{
+            return ResponseEntity.badRequest().body(null);
+        }
+
     }
 
     @PostMapping("/updateattend")
