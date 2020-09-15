@@ -32,7 +32,7 @@ public class LoginController {
      * @param userVo 登录需要的vo
      * @return 登录成功返回登录用户，登录失败Http状态码返回400
      */
-    @ApiOperation(value = "登录")
+    @ApiOperation(value = "登录", notes = "登录成功返回登录用户，登录失败Http状态码返回400")
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody LoginUserVo userVo) {
         if (!StringUtils.isEmpty(userVo.getPhoneNumber()) && !StringUtils.isEmpty(userVo.getPassword())) {

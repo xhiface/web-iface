@@ -1,6 +1,7 @@
 package com.yumier.iface.dao;
 
 import com.yumier.iface.entity.User;
+import com.yumier.iface.entity.vo.RegisterUserVo;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -22,12 +23,12 @@ public interface UserDao {
 
     @Insert("insert into t_user (groupId,faceId,username,password,role,age,email,gender,phoneNumber,createTime,updateTime) " +
             "value(#{groupId},#{faceId},#{username},#{password},#{role},#{age},#{email},#{gender},#{phoneNumber},#{createTime},#{updateTime})")
-    int insertUser(User user);
+    int insertUser(RegisterUserVo registerUserVo);
 
     @Update("update t_user set groupId = #{groupId},faceId = #{faceId},username = #{username},password = #{password},role = #{role},age = #{age},email = #{email},gender = #{gender}," +
-            "phoneNumber = #{phoneNumber},createTime = #{createTime},updateTime = #{updateTime} where id=#{id}")
-    int updateUser(User user);
+            "phoneNumber = #{phoneNumber},createTime = #{createTime},updateTime = #{updateTime} where phoneNumber=#{phoneNumber}")
+    int updateUser(RegisterUserVo registerUserVo);
 
-    @Delete("delete from t_user where id=#{id}")
-    int deleteUser(int id);
+    @Delete("delete from t_user where phoneNumber=#{phoneNumber}")
+    int deleteUser(@Param("phoneNumber") String phoneNumber);
 }

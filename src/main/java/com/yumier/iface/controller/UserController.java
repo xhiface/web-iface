@@ -1,7 +1,12 @@
 package com.yumier.iface.controller;
 
 import com.yumier.iface.entity.User;
+import com.yumier.iface.entity.vo.DeleteUserVo;
+import com.yumier.iface.entity.vo.GetUserVo;
+import com.yumier.iface.entity.vo.RegisterUserVo;
 import com.yumier.iface.service.impl.UserServiceImpl;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,44 +22,94 @@ import java.util.List;
  * @author intent
  * @date 2020/9/13
  */
+@Api(tags = "获取全部用户、根据手机号获取用户、添加用户、更新用户、删除用户")
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    UserServiceImpl us;
+    /**
+     * 用户默认权限
+     */
+    private static final String USER_DEFAULT_ROLE = "user";
 
+    @Autowired
+    UserServiceImpl userService;
+
+    /**
+     * 获取全部用户
+     *
+     * @return 用户列表
+     */
+    @ApiOperation(value = "获取全部用户")
     @PostMapping("/get-all-user")
     public List<User> getAllUser() {
-        return us.getAll();
+        return userService.getAll();
     }
 
-    @PostMapping("/select-one-user")
-    public User selectOneUser(@RequestBody User user) {
-        return us.getOne(user.getPhoneNumber());
+    /**
+     * 根据手机号获取用户
+     *
+     * @param getUserVo {@link GetUserVo}
+     * @return 查询到用户返回用户，没有查询到用户http状态码返回400
+     */
+    @ApiOperation(value = "根据手机号获取用户", notes = "查询到用户返回用户，没有查询到用户http状态码返回400")
+    @PostMapping("/get-one-user")
+    public ResponseEntity<User> getOneUser(@RequestBody GetUserVo getUserVo) {
+        User user = userService.getOne(getUserVo.getPhoneNumber());
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        }
+        return ResponseEntity.badRequest().body(null);
     }
 
+    /**
+     * 添加用户
+     *
+     * @param registerUserVo 用户
+     * @return 插入用户成功返回用户，插入用户失败http状态码返回400
+     */
+    @ApiOperation(value = "添加用户", notes = "插入用户成功返回用户，插入用户失败http状态码返回400")
     @PostMapping("/insert-user")
-    public ResponseEntity<User> insertUser(@RequestBody User user) {
-        user.setFaceId("");
-        user.setRole("user");
-        user.setCreateTime(new Date());
-        user.setUpdateTime(new Date());
-        if (us.insertUser(user) == 1) {
-            return ResponseEntity.ok(us.getOne(user.getPhoneNumber()));
+    public ResponseEntity<User> insertUser(@RequestBody RegisterUserVo registerUserVo) {
+        registerUserVo.setFaceId("");
+        registerUserVo.setRole(USER_DEFAULT_ROLE);
+        registerUserVo.setCreateTime(new Date());
+        registerUserVo.setUpdateTime(new Date());
+        if (userService.insertUser(registerUserVo)) {
+            return ResponseEntity.ok(userService.getOne(registerUserVo.getPhoneNumber()));
         } else {
             return ResponseEntity.badRequest().body(null);
         }
     }
 
+    /**
+     * 更新用户
+     *
+     * @param registerUserVo 用户
+     * @return 更新用户成功返回true，更新失败http状态码返回400
+     */
+    @ApiOperation(value = "更新用户", notes = "更新用户成功返回true，更新失败http状态码返回400")
     @PostMapping("/update-user")
-    public ResponseEntity<Boolean> updateUser(@RequestBody User user) {
-        user.setUpdateTime(new Date());
-        return ResponseEntity.ok(us.insertUser(user) == 1);
+    public ResponseEntity<Boolean> updateUser(@RequestBody RegisterUserVo registerUserVo) {
+        registerUserVo.setUpdateTime(new Date());
+        if (userService.updateUser(registerUserVo)) {
+            return ResponseEntity.ok(true);
+        }
+        return ResponseEntity.badRequest().body(false);
     }
 
+    /**
+     * 删除用户
+     *
+     * @param deleteUserVo 用户手机号
+     * @return 删除用户成功返回true，删除失败http状态码返回400
+     */
+    @ApiOperation(value = "删除用户", notes = "删除用户成功返回true，删除失败http状态码返回400")
     @PostMapping("/deleteUser")
-    public ResponseEntity<Boolean> deleteUser(@RequestBody User user) {
-        return ResponseEntity.ok(us.deleteUser(user.getId()) == 1);
+    public ResponseEntity<Boolean> deleteUser(@RequestBody DeleteUserVo deleteUserVo) {
+        if (userService.deleteUser(deleteUserVo.getPhoneNumber())) {
+            return ResponseEntity.ok(true);
+        }
+        return ResponseEntity.badRequest().body(false);
     }
 }
