@@ -1,7 +1,6 @@
 package com.yumier.iface.service;
 
 import com.yumier.iface.entity.User;
-import com.yumier.iface.entity.vo.RegisterUserVo;
 
 import java.util.List;
 
@@ -32,9 +31,9 @@ public interface UserService {
      * @param registerUserVo 用户
      * @return 插入成功返回true
      */
-    boolean insertUser(RegisterUserVo registerUserVo);
+    boolean insertUser(User user);
 
-    boolean updateUser(RegisterUserVo registerUserVo);
+    boolean updateUser(User user);
 
     boolean deleteUser(String phoneNumber);
 }

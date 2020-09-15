@@ -23,11 +23,11 @@ public interface UserDao {
 
     @Insert("insert into t_user (groupId,faceId,username,password,role,age,email,gender,phoneNumber,createTime,updateTime) " +
             "value(#{groupId},#{faceId},#{username},#{password},#{role},#{age},#{email},#{gender},#{phoneNumber},#{createTime},#{updateTime})")
-    int insertUser(RegisterUserVo registerUserVo);
+    int insertUser(User user);
 
     @Update("update t_user set groupId = #{groupId},faceId = #{faceId},username = #{username},password = #{password},role = #{role},age = #{age},email = #{email},gender = #{gender}," +
             "phoneNumber = #{phoneNumber},createTime = #{createTime},updateTime = #{updateTime} where phoneNumber=#{phoneNumber}")
-    int updateUser(RegisterUserVo registerUserVo);
+    int updateUser(User user);
 
     @Delete("delete from t_user where phoneNumber=#{phoneNumber}")
     int deleteUser(@Param("phoneNumber") String phoneNumber);

@@ -7,6 +7,7 @@ import com.yumier.iface.entity.vo.RegisterUserVo;
 import com.yumier.iface.service.impl.UserServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -75,11 +76,13 @@ public class UserController {
     @ApiOperation(value = "添加用户", notes = "插入用户成功返回用户，插入用户失败http状态码返回400")
     @PostMapping("/add-user")
     public ResponseEntity<User> addUser(@RequestBody RegisterUserVo registerUserVo) {
-        registerUserVo.setFaceId("");
-        registerUserVo.setRole(USER_DEFAULT_ROLE);
-        registerUserVo.setCreateTime(new Date());
-        registerUserVo.setUpdateTime(new Date());
-        if (userService.insertUser(registerUserVo)) {
+        User user = new User();
+        BeanUtils.copyProperties(registerUserVo, user);
+        user.setFaceId("");
+        user.setRole(USER_DEFAULT_ROLE);
+        user.setCreateTime(new Date());
+        user.setUpdateTime(new Date());
+        if (userService.insertUser(user)) {
             return ResponseEntity.ok(userService.getOne(registerUserVo.getPhoneNumber()));
         } else {
             return ResponseEntity.badRequest().body(null);
@@ -95,8 +98,10 @@ public class UserController {
     @ApiOperation(value = "更新用户", notes = "更新用户成功返回true，更新失败http状态码返回400")
     @PostMapping("/update-user")
     public ResponseEntity<Boolean> updateUser(@RequestBody RegisterUserVo registerUserVo) {
-        registerUserVo.setUpdateTime(new Date());
-        if (userService.updateUser(registerUserVo)) {
+        User user = new User();
+        BeanUtils.copyProperties(registerUserVo, user);
+        user.setUpdateTime(new Date());
+        if (userService.updateUser(user)) {
             return ResponseEntity.ok(true);
         }
         return ResponseEntity.badRequest().body(false);

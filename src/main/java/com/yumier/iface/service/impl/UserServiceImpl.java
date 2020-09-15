@@ -2,7 +2,6 @@ package com.yumier.iface.service.impl;
 
 import com.yumier.iface.dao.UserDao;
 import com.yumier.iface.entity.User;
-import com.yumier.iface.entity.vo.RegisterUserVo;
 import com.yumier.iface.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,18 +31,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean insertUser(RegisterUserVo registerUserVo) {
-        User user = userDao.selectOne(registerUserVo.getPhoneNumber());
+    public boolean insertUser(User newUser) {
+        User user = userDao.selectOne(newUser.getPhoneNumber());
         if (user == null) {
-            return userDao.insertUser(registerUserVo) == 1;
+            return userDao.insertUser(newUser) == 1;
         } else {
             return false;
         }
     }
 
     @Override
-    public boolean updateUser(RegisterUserVo registerUserVo) {
-        return userDao.updateUser(registerUserVo) == 1;
+    public boolean updateUser(User user) {
+        return userDao.updateUser(user) == 1;
     }
 
     @Override
