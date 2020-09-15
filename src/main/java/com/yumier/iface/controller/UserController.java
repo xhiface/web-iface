@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * @author hedayu
+ * @author intent
  * @date 2020/9/13
  */
 @RestController
@@ -24,36 +25,36 @@ public class UserController {
     UserServiceImpl us;
 
     @PostMapping("/getalluser")
-    public List<User> getAllUser(){
-        return us.selectall();
+    public List<User> getAllUser() {
+        return us.getAll();
     }
 
     @PostMapping("/selectoneuser")
-    public User selectoneuser(@RequestBody User user){
-        return us.selectone(user);
+    public User selectoneuser(@RequestBody User user) {
+        return us.getOne(user.getPhoneNumber());
     }
 
     @PostMapping("/insertuser")
-    public ResponseEntity<User> insertUser(@RequestBody User user){
+    public ResponseEntity<User> insertUser(@RequestBody User user) {
         user.setFaceId("");
         user.setRole("user");
         user.setCreateTime(new Date());
         user.setUpdateTime(new Date());
-        if(us.insertUser(user)==1){
-            return ResponseEntity.ok(us.selectone(user));
-        }else{
+        if (us.insertUser(user) == 1) {
+            return ResponseEntity.ok(us.getOne(user.getPhoneNumber()));
+        } else {
             return ResponseEntity.badRequest().body(null);
         }
     }
 
     @PostMapping("/updateuser")
-    public ResponseEntity<Boolean> updateUser(@RequestBody User user){
+    public ResponseEntity<Boolean> updateUser(@RequestBody User user) {
         user.setUpdateTime(new Date());
-        return ResponseEntity.ok(us.insertUser(user)==1);
+        return ResponseEntity.ok(us.insertUser(user) == 1);
     }
 
     @PostMapping("/deleteuser")
-    public ResponseEntity<Boolean> deleteUser(@RequestBody User user){
-        return ResponseEntity.ok(us.deleteUser(user.getId())==1);
+    public ResponseEntity<Boolean> deleteUser(@RequestBody User user) {
+        return ResponseEntity.ok(us.deleteUser(user.getId()) == 1);
     }
 }

@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * @author hedayu
+ * @author intent
  * @date 2020/9/13
  */
 @Repository
@@ -17,7 +18,7 @@ public interface UserDao {
     List<User> selectAll();
 
     @Select("select * from t_user where phoneNumber=#{phoneNumber}")
-    User selectOne(User user);
+    User selectOne(@Param("phoneNumber") String phoneNumber);
 
     @Insert("insert into t_user (groupId,faceId,username,password,role,age,email,gender,phoneNumber,createTime,updateTime) " +
             "value(#{groupId},#{faceId},#{username},#{password},#{role},#{age},#{email},#{gender},#{phoneNumber},#{createTime},#{updateTime})")

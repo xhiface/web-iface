@@ -44,9 +44,9 @@ public class AttendController {
     public List<Attend> getTimeQuantum(@RequestBody TimeQuantum timeQuantum) {
         Attend attend = new Attend();
         attend.setPhoneNumber(timeQuantum.getPhoneNumber());
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-        Date startTime= null;
-        Date endTime=null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date startTime = null;
+        Date endTime = null;
         try {
             startTime = sdf.parse(timeQuantum.getStartTime());
             endTime = sdf.parse(timeQuantum.getEndTime());
@@ -60,28 +60,28 @@ public class AttendController {
     public ResponseEntity<Attend> insertAttend(@RequestBody Attend attend) {
         User user = new User();
         user.setPhoneNumber(attend.getPhoneNumber());
-        User selectone = usi.selectone(user);
+        User selectone = usi.getOne(user.getPassword());
         attend.setUsername(selectone.getUsername());
         Calendar cal = Calendar.getInstance();
         attend.setCheckTime(cal.getTime());
-        if(cal.get(Calendar.HOUR_OF_DAY)<12){
+        if (cal.get(Calendar.HOUR_OF_DAY) < 12) {
             attend.setType("1");
-            if(cal.get(Calendar.HOUR_OF_DAY)>9){
+            if (cal.get(Calendar.HOUR_OF_DAY) > 9) {
                 attend.setStatus("2");
-            }else{
+            } else {
                 attend.setStatus("1");
             }
-        }else{
+        } else {
             attend.setType("2");
-            if(cal.get(Calendar.HOUR_OF_DAY)<18){
+            if (cal.get(Calendar.HOUR_OF_DAY) < 18) {
                 attend.setStatus("3");
-            }else{
+            } else {
                 attend.setStatus("1");
             }
         }
-        if(asi.insertAttend(attend)==1){
+        if (asi.insertAttend(attend) == 1) {
             return ResponseEntity.ok(attend);
-        }else{
+        } else {
             return ResponseEntity.badRequest().body(null);
         }
 
@@ -89,16 +89,16 @@ public class AttendController {
 
     @PostMapping("/updateattend")
     public ResponseEntity<Boolean> updateAttend(@RequestBody Attend attend) {
-        return ResponseEntity.ok(asi.updateAttend(attend)==1);
+        return ResponseEntity.ok(asi.updateAttend(attend) == 1);
     }
 
     @PostMapping("/deleteoneattend")
     public ResponseEntity<Boolean> deleteOneAttend(int id) {
-        return ResponseEntity.ok(asi.deleteOneAttend(id)==1);
+        return ResponseEntity.ok(asi.deleteOneAttend(id) == 1);
     }
 
     @PostMapping("/deleteoneuser")
     public ResponseEntity<Boolean> deleteOneUser(@RequestBody Attend attend) {
-        return ResponseEntity.ok(asi.deleteOneUser(attend)==1);
+        return ResponseEntity.ok(asi.deleteOneUser(attend) == 1);
     }
 }

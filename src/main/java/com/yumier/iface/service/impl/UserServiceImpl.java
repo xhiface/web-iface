@@ -10,40 +10,43 @@ import java.util.List;
 
 /**
  * @author hedayu
+ * @author intent
  * @date 2020/9/13
  */
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
-    UserDao ud;
+    UserDao userDao;
 
     @Override
-    public List<User> selectall(){
-        List<User> users = ud.selectAll();
+    public List<User> getAll() {
+        List<User> users = userDao.selectAll();
         return users;
     }
+
     @Override
-    public User selectone(User user){
-        User trueUser = ud.selectOne(user);
+    public User getOne(String phoneNumber) {
+        User trueUser = userDao.selectOne(phoneNumber);
         return trueUser;
     }
+
     @Override
-    public int insertUser(User user){
-        User getone = ud.selectOne(user);
-        if(getone==null){
-            return ud.insertUser(user);
-        }else{
+    public int insertUser(User user) {
+        User getone = userDao.selectOne(user.getPhoneNumber());
+        if (getone == null) {
+            return userDao.insertUser(user);
+        } else {
             return 0;
         }
     }
 
     @Override
     public int updateUser(User user) {
-        return ud.updateUser(user);
+        return userDao.updateUser(user);
     }
 
     @Override
     public int deleteUser(int id) {
-        return ud.deleteUser(id);
+        return userDao.deleteUser(id);
     }
 }
