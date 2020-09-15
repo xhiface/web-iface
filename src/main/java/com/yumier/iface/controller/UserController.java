@@ -23,17 +23,17 @@ public class UserController {
     @Autowired
     UserServiceImpl us;
 
-    @PostMapping("/getalluser")
+    @PostMapping("/get-all-user")
     public List<User> getAllUser(){
         return us.selectall();
     }
 
-    @PostMapping("/selectoneuser")
+    @PostMapping("/select-one-user")
     public User selectoneuser(@RequestBody User user){
         return us.selectone(user);
     }
 
-    @PostMapping("/insertuser")
+    @PostMapping("/insert-user")
     public ResponseEntity<User> insertUser(@RequestBody User user){
         user.setFaceId("");
         user.setRole("user");
@@ -46,13 +46,13 @@ public class UserController {
         }
     }
 
-    @PostMapping("/updateuser")
+    @PostMapping("/update-user")
     public ResponseEntity<Boolean> updateUser(@RequestBody User user){
         user.setUpdateTime(new Date());
         return ResponseEntity.ok(us.insertUser(user)==1);
     }
 
-    @PostMapping("/deleteuser")
+    @PostMapping("/delete-user")
     public ResponseEntity<Boolean> deleteUser(@RequestBody User user){
         return ResponseEntity.ok(us.deleteUser(user.getId())==1);
     }

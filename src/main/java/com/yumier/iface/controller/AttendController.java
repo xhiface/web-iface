@@ -30,17 +30,17 @@ public class AttendController {
     @Autowired
     UserServiceImpl usi;
 
-    @PostMapping("/selectall")
+    @PostMapping("/select-all")
     public List<Attend> selectAll() {
         return asi.selectAll();
     }
 
-    @PostMapping("/selectoneuser")
+    @PostMapping("/select-one-user")
     public List<Attend> selectOneUser(@RequestBody Attend attend) {
         return asi.selectOneUser(attend);
     }
 
-    @PostMapping("/gettimequantum")
+    @PostMapping("/get-time-quantum")
     public List<Attend> getTimeQuantum(@RequestBody TimeQuantum timeQuantum) {
         Attend attend = new Attend();
         attend.setPhoneNumber(timeQuantum.getPhoneNumber());
@@ -56,7 +56,7 @@ public class AttendController {
         return asi.getTimeQuantum(attend, startTime, endTime);
     }
 
-    @PostMapping("/insertattend")
+    @PostMapping("/insert-attend")
     public ResponseEntity<Attend> insertAttend(@RequestBody Attend attend) {
         User user = new User();
         user.setPhoneNumber(attend.getPhoneNumber());
@@ -87,17 +87,17 @@ public class AttendController {
 
     }
 
-    @PostMapping("/updateattend")
+    @PostMapping("/update-attend")
     public ResponseEntity<Boolean> updateAttend(@RequestBody Attend attend) {
         return ResponseEntity.ok(asi.updateAttend(attend)==1);
     }
 
-    @PostMapping("/deleteoneattend")
+    @PostMapping("/delete-one-attend")
     public ResponseEntity<Boolean> deleteOneAttend(int id) {
         return ResponseEntity.ok(asi.deleteOneAttend(id)==1);
     }
 
-    @PostMapping("/deleteoneuser")
+    @PostMapping("/delete-one-user")
     public ResponseEntity<Boolean> deleteOneUser(@RequestBody Attend attend) {
         return ResponseEntity.ok(asi.deleteOneUser(attend)==1);
     }
