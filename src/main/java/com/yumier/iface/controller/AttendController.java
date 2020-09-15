@@ -2,7 +2,9 @@ package com.yumier.iface.controller;
 
 import com.yumier.iface.entity.Attend;
 import com.yumier.iface.entity.TimeQuantum;
+import com.yumier.iface.entity.User;
 import com.yumier.iface.service.impl.AttendServiceImpl;
+import com.yumier.iface.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +27,8 @@ import java.util.List;
 public class AttendController {
     @Autowired
     AttendServiceImpl asi;
+    @Autowired
+    UserServiceImpl usi;
 
     @PostMapping("/selectall")
     public List<Attend> selectAll() {
@@ -53,6 +58,27 @@ public class AttendController {
 
     @PostMapping("/insertattend")
     public ResponseEntity<Boolean> insertAttend(@RequestBody Attend attend) {
+        User user = new User();
+        user.setPhoneNumber(attend.getPhoneNumber());
+        User selectone = usi.selectone(user);
+        attend.setUsername(selectone.getUsername());
+        Calendar cal = Calendar.getInstance();
+        attend.setCheckTime(cal.getTime());
+        if(cal.get(Calendar.HOUR_OF_DAY)<12){
+            attend.setType("1");
+            if(cal.get(Calendar.HOUR_OF_DAY)>9){
+                attend.setStatus("2");
+            }else{
+                attend.setStatus("1");
+            }
+        }else{
+            attend.setType("2");
+            if(cal.get(Calendar.HOUR_OF_DAY)<18){
+                attend.setStatus("3");
+            }else{
+                attend.setStatus("1");
+            }
+        }
         return ResponseEntity.ok(asi.insertAttend(attend)==1);
     }
 

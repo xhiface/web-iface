@@ -31,9 +31,9 @@ public class UserServiceImpl implements UserService {
     public int insertUser(User user){
         User getone = ud.selectOne(user);
         if(getone==null){
-            return 0;
-        }else{
             return ud.insertUser(user);
+        }else{
+            return 0;
         }
     }
 
