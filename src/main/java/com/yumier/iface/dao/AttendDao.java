@@ -18,7 +18,7 @@ public interface AttendDao {
     List<Attend> selectAll();
 
     @Select("select * from t_attendancerecord where phoneNumber=#{phoneNumber}")
-    List<Attend> selectOneUser(Attend attend);
+    List<Attend> selectOneAttend(@Param("phoneNumber") String phoneNumber);
 
     @Select("select * from t_attendancerecord where phoneNumber=#{phoneNumber} " +
             "and  checkTime>#{startTime} and checkTime<#{endTime}")
@@ -36,5 +36,5 @@ public interface AttendDao {
     int deleteOneAttend(int id);
 
     @Delete("delete from t_attendancerecord where phoneNumber=#{phoneNumber}")
-    int deleteOneUser(Attend attend);
+    int deleteOneUser(@Param("phoneNumber") String phoneNumber);
 }

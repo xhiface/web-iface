@@ -40,10 +40,14 @@ public class UserController {
      *
      * @return 用户列表
      */
-    @ApiOperation(value = "获取全部用户")
+    @ApiOperation(value = "获取全部用户", notes = "获取成功返回用户列表，获取失败http状态码返回400")
     @PostMapping("/get-all-user")
-    public List<User> getAllUser() {
-        return userService.getAll();
+    public ResponseEntity<List<User>> getAllUser() {
+        List<User> userList = userService.getAll();
+        if (userList != null && !userList.isEmpty()) {
+            return ResponseEntity.ok(userList);
+        }
+        return ResponseEntity.badRequest().body(null);
     }
 
     /**
@@ -69,8 +73,8 @@ public class UserController {
      * @return 插入用户成功返回用户，插入用户失败http状态码返回400
      */
     @ApiOperation(value = "添加用户", notes = "插入用户成功返回用户，插入用户失败http状态码返回400")
-    @PostMapping("/insert-user")
-    public ResponseEntity<User> insertUser(@RequestBody RegisterUserVo registerUserVo) {
+    @PostMapping("/add-user")
+    public ResponseEntity<User> addUser(@RequestBody RegisterUserVo registerUserVo) {
         registerUserVo.setFaceId("");
         registerUserVo.setRole(USER_DEFAULT_ROLE);
         registerUserVo.setCreateTime(new Date());

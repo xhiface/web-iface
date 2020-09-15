@@ -10,17 +10,17 @@ import java.util.List;
  * @date 2020/9/13
  */
 public interface AttendService {
-    List<Attend> selectAll();
+    List<Attend> getAllAttend();
 
-    List<Attend> selectOneUser(Attend attend);
+    List<Attend> getOneAttend(String phoneNumber);
 
     List<Attend> getTimeQuantum(Attend attend, Date startTime, Date endTime);
 
-    int insertAttend(Attend attend);
+    boolean insertAttend(Attend attend);
 
-    int updateAttend(Attend attend);
+    boolean updateAttend(Attend attend);
 
-    int deleteOneAttend(int id);
+    boolean deleteOneAttend(int id);
 
-    int deleteOneUser(Attend attend);
+    boolean deleteOneUser(String phoneNumber);
 }

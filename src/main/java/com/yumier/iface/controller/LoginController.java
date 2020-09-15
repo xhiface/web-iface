@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author intent
  * @date 2020/9/13
  */
-@Api(tags = "用户登录")
+@Api(tags = "用户登录相关")
 @RestController
 @RequestMapping("/system")
 public class LoginController {
