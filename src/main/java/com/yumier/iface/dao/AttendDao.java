@@ -17,7 +17,7 @@ public interface AttendDao {
     @Select("select * from t_attendancerecord")
     List<Attend> selectAll();
 
-    @Select("select * from t_attendancerecord where phoneNumber=#{phoneNumber}")
+    @Select("select * from t_attendancerecord where phoneNumber=#{phoneNumber} order by checkTime desc")
     List<Attend> selectOneAttend(@Param("phoneNumber") String phoneNumber);
 
     @Select("select * from t_attendancerecord where phoneNumber=#{phoneNumber} " +
